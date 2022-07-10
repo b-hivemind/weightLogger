@@ -1,0 +1,5 @@
+#!/bin/bash
+docker build -t weight_logger_backend .
+docker run --rm -d --name=weight_logger_backend weight_logger_backend
+echo "Successfully launched backend"
+

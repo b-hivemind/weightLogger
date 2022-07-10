@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  backend:
+    build: backend/.
+    ports:
+      - "10000:10000"
+  frontend:
+    build: frontend/weight-logger/.
+    ports:
+      - "8080:80"
+  database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: very-secret-password
+      MYSQL_DATABASE: weight_data
+    volumes:
+      - ./storage/data:/var/lib/mysql
+      - ./storage/setup:/docker-entrypoint-initdb.d

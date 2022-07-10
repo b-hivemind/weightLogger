@@ -1,0 +1,108 @@
+.gain {
+  color: #ed8796;
+}
+
+.loss {
+  color: #a6da95;
+}
+
+html {
+  background-color: #24273a;
+  /*background-color: #fff;*/
+}
+
+.weightViz 
+
+.weightDelta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.deltaText {
+  margin: 10px;
+  color: black;
+  color: #cad3f5;
+}
+
+.deltaNum {
+  margin: 10px;
+}
+
+.weightGraph {
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.weightGraphLineChart {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.weightViz {
+  width: 50%;
+}
+
+.deltas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.lastWeightContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.lastWeightDelta {
+  text-align: center;
+}
+
+.lastWeight {
+  text-align: center;
+}
+
+.mainText {
+  font-size: 10vw;
+}
+
+.weightSenderContainer {
+  padding-top: 10px;
+  align-items: center;
+  text-align: center;
+}
+
+#weightEntryBox {
+  background-color: #5b6078;
+  color: #cad3f5;
+  font-size: 1rem;
+  border: none;
+}
+
+#send {
+  font-size: 1rem;
+}
+
+#force {
+  display: none;
+  font-size: 1rem;
+}
+
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .deltas {
+    flex-direction: column;
+  }
+  .weightViz {
+    width: 75%;
+  }
+  .mainText {
+    font-size: 20vw;
+  }
+}
