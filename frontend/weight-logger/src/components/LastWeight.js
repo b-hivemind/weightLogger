@@ -19,7 +19,7 @@ const LastWeight = ({ weightArr }) => {
             {delta() < 0 && <FaCaretDown/>}
             {delta() > 0 && <FaCaretUp/>}
         </h1> 
-        <p className='deltaText'>since {weightArr != null && moment(weightArr[1].date).fromNow()}</p>
+        <p className='deltaText'>since {weightArr != null && moment(weightArr[weightArr.length - 1].date).fromNow()}</p>
       </div>
       
     </div>

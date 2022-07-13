@@ -32,7 +32,8 @@ function App() {
           </div>
         </div>
         <div className="deltas">
-          {data !== null && data.slice(1, data.length).map((weightArr) => <WeightViz key={data.indexOf(weightArr)} weightArr={weightArr}/>)}
+          {data !== null && data[1].length > 1 && <WeightViz weightArr={data[1]}/>}
+          {data !== null && data[2].length > 7 && <WeightViz weightArr={data[2]}/>}
         </div>
       </div>
     </div>
