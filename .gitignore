@@ -3,3 +3,5 @@ frontend/weight-logger/node_modules
 frontend/weight-logger/build
 storage/data/*
 !storage/data/.gitignore
+.env
+backend/weight_logger
