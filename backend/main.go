@@ -13,8 +13,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// TODO use rs/cors
-
 type Entry struct {
 	Date   string `json:"date"`
 	Weight string `json:"weight"`
@@ -68,7 +66,6 @@ func stats(w http.ResponseWriter, r *http.Request) {
 
 func createNewEntry(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	var response Response_New
 	if err := json.Unmarshal(reqBody, &response); err != nil {
 		fmt.Println(response)
@@ -97,7 +94,7 @@ func createNewEntry(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			return
 		}
-		if lastEntry[0].Date == data.Date {
+		if len(lastEntry) > 0 && lastEntry[0].Date == data.Date {
 			w.WriteHeader(http.StatusMultipleChoices)
 			w.Write([]byte("300"))
 			return
@@ -114,7 +111,7 @@ func createNewEntry(w http.ResponseWriter, r *http.Request) {
 
 func newRouter() *mux.Router {
 	myRouter := mux.NewRouter()
-	myRouter.HandleFunc("/", success).Methods("GET", "OPTIONS")
+	myRouter.HandleFunc("/", success).Methods("GET")
 	myRouter.HandleFunc("/dashboard", stats)
 	myRouter.HandleFunc("/new", createNewEntry).Methods("POST", "OPTIONS")
 	myRouter.HandleFunc("/all", all)
