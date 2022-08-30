@@ -4,7 +4,10 @@ import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
 const LastWeight = ({ weightArr }) => {
     var delta = () => {
-        return (weightArr[0].weight - weightArr[weightArr.length - 1].weight).toFixed(2)
+      if (weightArr.lengh < 1) {
+        return 0
+      }
+      return (weightArr[0].weight - weightArr[weightArr.length - 1].weight).toFixed(2)
     }
 
     return (
@@ -14,14 +17,14 @@ const LastWeight = ({ weightArr }) => {
         {weightArr != null && <p className='deltaText'>{weightArr[0].date}</p>}
       </div>
       <div className='lastWeightDelta'>
-        <h1 className={`${delta() > 0 ? 'gain' : 'loss'}`}> 
+        <h1 className={`${delta() > 0 ? 'gain' : 'loss'}`}>
             {Math.abs(delta())}lb&nbsp;
             {delta() < 0 && <FaCaretDown/>}
             {delta() > 0 && <FaCaretUp/>}
-        </h1> 
+        </h1>
         <p className='deltaText'>since {weightArr != null && moment(weightArr[weightArr.length - 1].date).fromNow()}</p>
       </div>
-      
+
     </div>
    )
 }

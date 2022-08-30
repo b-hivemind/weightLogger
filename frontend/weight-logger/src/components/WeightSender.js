@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 export const WeightSender = ({ stateHandler }) => {
-  
+
   const createEntry = (event) => {
     let weight = document.getElementById("weightEntryBox").value;
     if(isNaN(weight) || isNaN(parseFloat(weight))) {
@@ -10,7 +10,7 @@ export const WeightSender = ({ stateHandler }) => {
         document.getElementById("weightEntryBox").value = null;
     }
     axios
-        .post('http://10.0.0.220:10000/new', {
+        .post('http://10.0.0.228:10000/new', {
             weight: weight,
             force: false
         })
@@ -33,7 +33,7 @@ const forceCreateEntry = (event) => {
         document.getElementById("weightEntryBox").value = null;
     }
     axios
-        .post('http://10.0.0.220:10000/new', {
+        .post('http://10.0.0.228:10000/new', {
             weight: weight,
             force: true
         })
@@ -49,7 +49,7 @@ const forceCreateEntry = (event) => {
             document.getElementById("weightEntryBox").value = null;
         })
 }
-  
+
   return (
     <div id="sender">
         <input id="weightEntryBox" type="text"/>&nbsp;
