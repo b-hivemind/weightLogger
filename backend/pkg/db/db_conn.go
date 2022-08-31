@@ -1,36 +1,45 @@
-package main
+package db
 
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	"github.com/go-sql-driver/mysql"
 )
 
 var (
-	db    *sql.DB
 	table = "main"
 )
 
-func writeWeight(ent Entry, force bool) error {
-	fmt.Println(ent)
+func WriteWeight(ent Entry, force bool) error {
 	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %s)", table, ent.Date, ent.Weight)
 	if force {
 		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%s' WHERE date='%s'", table, ent.Weight, ent.Date)
 	}
-	_, err := db.Exec(query)
+	db, err := connect()
 	if err != nil {
-		return fmt.Errorf("writeWeight: %v", err)
+		return fmt.Errorf("WriteWeight | Error connecting to database | %v", err)
+	}
+	defer db.Close()
+	_, err = db.Exec(query)
+	if err != nil {
+		return fmt.Errorf("WriteWeight: %v", err)
 	}
 	return nil
 }
 
-func weightByTimeFrame(days int) ([]Entry, error) {
+func WeightByTimeFrame(days int) ([]Entry, error) {
 	var entries []Entry
 	query := fmt.Sprintf("SELECT * FROM %s", table)
 	if days > 0 {
 		query += fmt.Sprintf(" ORDER BY date DESC LIMIT %d", days)
 	}
+	db, err := connect()
+	if err != nil {
+		return nil, fmt.Errorf("WeightByTimeFrame | Error connecting to database | %v", err)
+	}
+	defer db.Close()
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("weightByTimeFrame %d: %v", days, err)
@@ -50,25 +59,23 @@ func weightByTimeFrame(days int) ([]Entry, error) {
 	return entries, nil
 }
 
-func connect() error {
+func connect() (*sql.DB, error) {
+
 	cfg := mysql.Config{
-		User:   "archimedes",
-		Passwd: "@r(h1m3d3s",
+		User:   os.Getenv("DB_USER"),
+		Passwd: os.Getenv("DB_PASSWORD"),
 		Net:    "tcp",
-		Addr:   "database:3306",
+		Addr:   fmt.Sprintf("database:%s", os.Getenv("DB_PORT")),
 		DBName: "weight_data",
 	}
-	//Get a database handle
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	db, err := sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		return fmt.Errorf("Connect: %s", err)
+		return nil, fmt.Errorf("Connect: %s", err)
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		return fmt.Errorf("Connect: %s", pingErr)
+		return nil, fmt.Errorf("Connect: %s", pingErr)
 	}
-	fmt.Println("Connected!")
-	return nil
+	return db, nil
 }
