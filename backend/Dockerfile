@@ -12,8 +12,8 @@ COPY go.sum ./
 RUN go mod download
 
 COPY *.go ./
-
+ADD pkg/ ./pkg
 
 RUN go build -o /weight_logger_backend
 EXPOSE 10000
-CMD [ "/weight_logger_backend" ]
+ENTRYPOINT [ "/weight_logger_backend" ]
