@@ -1,21 +1,13 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
-	"os"
-
-	"github.com/go-sql-driver/mysql"
-)
-
-var (
-	table = "main"
 )
 
 func WriteWeight(ent Entry, force bool) error {
-	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %s)", table, ent.Date, ent.Weight)
+	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %s)", weightLogTable, ent.Date, ent.Weight)
 	if force {
-		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%s' WHERE date='%s'", table, ent.Weight, ent.Date)
+		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%s' WHERE date='%s'", weightLogTable, ent.Weight, ent.Date)
 	}
 	db, err := connect()
 	if err != nil {
@@ -31,7 +23,7 @@ func WriteWeight(ent Entry, force bool) error {
 
 func WeightByTimeFrame(days int) ([]Entry, error) {
 	var entries []Entry
-	query := fmt.Sprintf("SELECT * FROM %s", table)
+	query := fmt.Sprintf("SELECT * FROM %s", weightLogTable)
 	if days > 0 {
 		query += fmt.Sprintf(" ORDER BY date DESC LIMIT %d", days)
 	}
@@ -57,25 +49,4 @@ func WeightByTimeFrame(days int) ([]Entry, error) {
 		return nil, fmt.Errorf("weightByTimeFrame %d: %v", days, err)
 	}
 	return entries, nil
-}
-
-func connect() (*sql.DB, error) {
-
-	cfg := mysql.Config{
-		User:   os.Getenv("DB_USER"),
-		Passwd: os.Getenv("DB_PASSWORD"),
-		Net:    "tcp",
-		Addr:   fmt.Sprintf("database:%s", os.Getenv("DB_PORT")),
-		DBName: "weight_data",
-	}
-	db, err := sql.Open("mysql", cfg.FormatDSN())
-	if err != nil {
-		return nil, fmt.Errorf("Connect: %s", err)
-	}
-
-	pingErr := db.Ping()
-	if pingErr != nil {
-		return nil, fmt.Errorf("Connect: %s", pingErr)
-	}
-	return db, nil
 }

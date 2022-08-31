@@ -9,20 +9,22 @@ import (
 	"time"
 
 	"bhavdeep.me/weight_logger/pkg/db"
+	"github.com/gin-gonic/gin"
 )
 
-func all(w http.ResponseWriter, r *http.Request) {
-	entries, err := db.WeightByTimeFrame(0)
-	if err != nil {
-		fmt.Println(err)
-		http.Error(w, "Internal Server Error", http.StatusBadRequest)
+func handleEntries(c *gin.Context) {
+	validator := entriesQuery{}
+	if err := c.ShouldBindUri(&validator); err != nil {
+		c.JSON(400, gin.H{"msg": err.Error()})
 		return
 	}
-	json.NewEncoder(w).Encode(entries)
-}
-
-func success(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "weight_weight_logger_api v0.2.0 :)\n")
+	entries, err := db.WeightByTimeFrame(validator.days)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	} else {
+		c.JSON(200, entries)
+	}
 }
 
 func stats(w http.ResponseWriter, r *http.Request) {
