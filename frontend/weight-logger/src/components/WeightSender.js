@@ -9,13 +9,13 @@ export const WeightSender = ({ stateHandler }) => {
         alert("Invalid weight: " + weight)
         document.getElementById("weightEntryBox").value = null;
     }
+    weight = parseFloat(weight)
     axios
-        .post('http://10.0.0.228:10000/new', {
+        .post('http://10.0.0.134:8081/entries/new', {
             weight: weight,
             force: false
         })
         .then(function(response) {
-
             stateHandler()
             document.getElementById("weightEntryBox").value = null;
         })
@@ -27,13 +27,14 @@ export const WeightSender = ({ stateHandler }) => {
         })
 }
 const forceCreateEntry = (event) => {
-  let weight = document.getElementById("weightEntryBox").value;
+    let weight = document.getElementById("weightEntryBox").value;
     if(isNaN(weight) || isNaN(parseFloat(weight))) {
         alert("Invalid weight: " + weight)
         document.getElementById("weightEntryBox").value = null;
     }
+    weight = parseFloat(weight)
     axios
-        .post('http://10.0.0.228:10000/new', {
+        .post('http://10.0.0.134:8081/entries/new', {
             weight: weight,
             force: true
         })

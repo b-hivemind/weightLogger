@@ -8,36 +8,47 @@ import { WeightSender } from './components/WeightSender';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState(null)
+  const [weightData, setWeightData] = useState([])
 
-  const getData = async () => {
-    const queryURL = "http://10.0.0.228:10000/dashboard"
-    const results = await axios.get(queryURL)
-    setData(results.data)
+  let fetchWeightData = async () => {
+    const baseURL = "http://10.0.0.134:8081/entries"
+    const intervals = [2, 7, 30]
+    let tempData = []
+    for(let interval of intervals) {
+      await axios.get(baseURL + "/" + interval)
+      .then(function(response) {
+        tempData.push(response.data.reverse())
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
+    }
+    setWeightData([...tempData])
   }
 
   useEffect(() => {
-      getData()
-    }, [])
+    fetchWeightData()
+  }, [])
 
-  return (
+  return(
     <div className='App'>
       <div className='appContainer'>
         <div className='numbers'>
           <div className='weightSenderContainer'>
-            <WeightSender stateHandler={getData}/>
+            <WeightSender stateHandler={fetchWeightData}/>
           </div>
           <div className="lastWeightContainer">
-            {data !== null && data[0] !== null && <LastWeight weightArr={data[0]}/>}
+            {weightData.length > 0 && weightData[0] !== null && <LastWeight weightArr={weightData[0]}/>}
           </div>
         </div>
         <div className="deltas">
-          {data !== null && data[1] !== null && data[1].length > 1 && <WeightViz weightArr={data[1]}/>}
-          {data !== null && data[2] !== null && data[2].length > 7 && <WeightViz weightArr={data[2]}/>}
+          {weightData.length > 1 && weightData[1] !== null && weightData[1].length > 2 && <WeightViz weightArr={weightData[1]}/>}
+          {weightData.length > 2 && weightData[2] !== null && weightData[2].length > 7 && <WeightViz weightArr={weightData[2]}/>}
         </div>
       </div>
     </div>
-  );
+
+  )
 }
 
 export default App;

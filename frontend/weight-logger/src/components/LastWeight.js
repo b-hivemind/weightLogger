@@ -4,7 +4,7 @@ import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
 const LastWeight = ({ weightArr }) => {
     var delta = () => {
-      if (weightArr.lengh < 1) {
+      if (weightArr.length < 1) {
         return 0
       }
       return (weightArr[0].weight - weightArr[weightArr.length - 1].weight).toFixed(2)
