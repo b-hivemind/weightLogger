@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,15 +17,30 @@ func newRouter() *mux.Router {
 }
 */
 
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
+}
+
 func getRouter() *gin.Engine {
 	r := gin.Default()
-	r.Use(cors.Default())
+	r.Use(CORSMiddleware())
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
-	r.GET("/entries/:numdays", handleEntries)
+	r.GET("/entries/:numdays", handleGetEntries)
+	r.POST("/entries/new", handleNewEntry)
 	return r
 }
 
@@ -34,9 +48,8 @@ func HandleRequests() {
 	// TOOD probably should use an ENV variable here
 	router := getRouter()
 	s := &http.Server{
-		Addr:    ":10090",
+		Addr:    ":10080",
 		Handler: router,
 	}
 	log.Fatal(s.ListenAndServe())
-	// log.Fatal(http.ListenAndServe(":10000", handlers.CORS(handlers.AllowedHeaders([]string{"content-type"}), origins, handlers.AllowCredentials())(myRouter)))
 }

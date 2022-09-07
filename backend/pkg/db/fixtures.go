@@ -6,6 +6,6 @@ const (
 )
 
 type Entry struct {
-	Date   string `json:"date"`
-	Weight string `json:"weight"`
+	Date   string  `json:"date"`
+	Weight float32 `json:"weight"`
 }

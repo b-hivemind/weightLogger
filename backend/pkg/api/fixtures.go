@@ -4,7 +4,7 @@ type entriesQuery struct {
 	days int `binding:"required" uri:"numdays"`
 }
 
-type Response_New struct {
-	Weight string `json:"weight"`
-	Force  bool   `json:"force"`
+type newEntryQuery struct {
+	Weight float32 `json:"weight" binding:"required"`
+	Force  bool    `json:"force"`
 }

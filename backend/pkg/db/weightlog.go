@@ -5,9 +5,9 @@ import (
 )
 
 func WriteWeight(ent Entry, force bool) error {
-	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %s)", weightLogTable, ent.Date, ent.Weight)
+	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %f)", weightLogTable, ent.Date, ent.Weight)
 	if force {
-		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%s' WHERE date='%s'", weightLogTable, ent.Weight, ent.Date)
+		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%f' WHERE date='%s'", weightLogTable, ent.Weight, ent.Date)
 	}
 	db, err := connect()
 	if err != nil {
