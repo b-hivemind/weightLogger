@@ -7,7 +7,7 @@ services:
       - DB_PASSWORD
       - DB_PORT
     ports:
-      - "10000:10000"
+      - "8081:10080"
   frontend:
     build: frontend/weight-logger/.
     ports:
