@@ -41,6 +41,8 @@ func getRouter() *gin.Engine {
 	})
 	r.GET("/entries/:numdays", handleGetEntries)
 	r.POST("/entries/new", handleNewEntry)
+	r.POST("/register", handleRegister)
+	r.POST("/login", handleLogin)
 	return r
 }
 
