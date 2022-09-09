@@ -1,7 +1,7 @@
 package api
 
 type entriesQuery struct {
-	days int `binding:"required" uri:"numdays"`
+	Days int `binding:"required" uri:"numdays"`
 }
 
 type newEntryQuery struct {

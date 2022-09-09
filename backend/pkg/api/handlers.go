@@ -14,7 +14,7 @@ func handleGetEntries(c *gin.Context) {
 		c.JSON(400, gin.H{"msg": err.Error()})
 		return
 	}
-	entries, err := db.WeightByTimeFrame(validator.days)
+	entries, err := db.WeightByTimeFrame(validator.Days)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return

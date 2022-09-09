@@ -27,6 +27,7 @@ func WeightByTimeFrame(days int) ([]Entry, error) {
 	if days > 0 {
 		query += fmt.Sprintf(" ORDER BY date DESC LIMIT %d", days)
 	}
+	fmt.Printf("Query: %s\n", query)
 	db, err := connect()
 	if err != nil {
 		return nil, fmt.Errorf("WeightByTimeFrame | Error connecting to database | %v", err)
