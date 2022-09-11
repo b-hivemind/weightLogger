@@ -11,13 +11,13 @@ function App() {
   const [weightData, setWeightData] = useState([])
 
   let fetchWeightData = async () => {
-    const baseURL = "http://10.0.0.134:8081/entries"
+    const baseURL = "http://10.0.0.228:8081/entries"
     const intervals = [2, 7, 30]
     let tempData = []
     for(let interval of intervals) {
       await axios.get(baseURL + "/" + interval)
       .then(function(response) {
-        tempData.push(response.data.reverse())
+        tempData.push(response.data)
       })
       .catch(function(error) {
         console.log(error)

@@ -11,7 +11,7 @@ export const WeightSender = ({ stateHandler }) => {
     }
     weight = parseFloat(weight)
     axios
-        .post('http://10.0.0.134:8081/entries/new', {
+        .post('http://10.0.0.228:8081/entries/new', {
             weight: weight,
             force: false
         })
@@ -34,7 +34,7 @@ const forceCreateEntry = (event) => {
     }
     weight = parseFloat(weight)
     axios
-        .post('http://10.0.0.134:8081/entries/new', {
+        .post('http://10.0.0.228:8081/entries/new', {
             weight: weight,
             force: true
         })
