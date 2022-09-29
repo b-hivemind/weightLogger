@@ -9,6 +9,12 @@ import (
 )
 
 func handleGetEntries(c *gin.Context) {
+	claims, err := getClaimsFromToken(c)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Printf("Request was made by %s\n", claims.UUID)
 	validator := entriesQuery{}
 	if err := c.ShouldBindUri(&validator); err != nil {
 		c.JSON(400, gin.H{"msg": err.Error()})
