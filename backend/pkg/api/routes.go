@@ -7,9 +7,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	allowed_origins = 3
+)
+
+func checkAllowedOrigins(c *gin.Context) string {
+	ALLOWED_ORIGINS := []string{
+		"http://10.0.0.184:8080",
+		"http://10.0.0.184:3000",
+		"http://localhost:8080",
+		"http://localhost:3000",
+		"http://10.0.0.228:8080",
+	}
+	for _, origin := range ALLOWED_ORIGINS {
+		if origin == c.Request.Header.Get("Origin") {
+			return c.Request.Header.Get("Origin")
+		}
+	}
+	return ""
+}
+
 func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://10.0.0.184:8080")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", checkAllowedOrigins(c))
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "bearer, content-type")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
