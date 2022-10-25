@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-export const WeightSender = ({ stateHandler }) => {
+export const WeightSender = ({ token, stateHandler }) => {
 
   const createEntry = (event) => {
     let weight = document.getElementById("weightEntryBox").value;
@@ -13,7 +13,12 @@ export const WeightSender = ({ stateHandler }) => {
     axios
         .post('http://10.0.0.184:8081/entries/new', {
             weight: weight,
-            force: false
+            force: false,    
+        },
+        {
+            headers: {
+                bearer: token,
+            }
         })
         .then(function(response) {
             stateHandler()

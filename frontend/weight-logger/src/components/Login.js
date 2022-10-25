@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-export const Login = () => {
+export const Login = ({ stateHandler }) => {
     axios.defaults.withCredentials = true
     let token = ""
 
@@ -19,17 +19,11 @@ export const Login = () => {
             })
             .then(function(response) {
                 token = response.data["token"]
-                axios.get("http://10.0.0.184:8081/entries/2", {
-                    headers: {
-                        bearer: token,
-                    }, 
-                    })
-                    .then(function(response) {
-                        console.log(response.data)
-                    })
-                    .catch(function(error) {
-                        console.log(error)
-                    })
+                let profileName = response.data["profile"]["username"]
+                stateHandler({
+                    "token": token,
+                    "username": profileName
+                })
             })
             .catch(function(error) {
                 console.log(error)
@@ -38,13 +32,18 @@ export const Login = () => {
   
     return (
     <div>
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required/>
+        <div className="loginForm">
+            <div className="loginFormContainer">
+                <h3 className="title">Login</h3>
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required/>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required/>
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required/>
 
-        <button onClick={handleLogin}>Login</button>
+                <button id="submitButton" onClick={handleLogin}><b>Login</b></button>
+            </div>
+        </div>
     </div>
   )
 }

@@ -1,3 +1,8 @@
+.title {
+  text-align: center;
+  color: #eceff4;
+}
+
 .gain {
   color: #ed8796;
 }
@@ -93,6 +98,54 @@ html {
   font-size: 1rem;
 }
 
+.loginForm {
+  padding: 25% 25%;
+}
+
+.loginFormContainer {
+  background-color: #4c566a;
+  padding: 10px 20px;
+}
+
+.loginForm input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.loginForm button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.loginForm button:hover {
+  opacity: 0.8;
+}
+
+.loginForm label {
+  color: #eceff4;
+}
+
+.loginHeader {
+  padding: 2px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #eceff4;
+}
+
+.loginHeader button {
+  background-color: #24273a;
+}
 
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
