@@ -4,11 +4,8 @@ import (
 	"fmt"
 )
 
-func WriteWeight(ent Entry, force bool) error {
-	query := fmt.Sprintf("INSERT INTO %s (date, weight) VALUES ('%s', %f)", weightLogTable, ent.Date, ent.Weight)
-	if force {
-		query = fmt.Sprintf("UPDATE IGNORE %s SET weight='%f' WHERE date='%s'", weightLogTable, ent.Weight, ent.Date)
-	}
+func WriteWeight(ent Entry) error {
+	query := fmt.Sprintf("INSERT INTO %s (timestamp, uid, weight) VALUES (%d, '%s', %f)", weightLogTable, ent.Date, ent.UID, ent.Weight)
 	db, err := connect()
 	if err != nil {
 		return fmt.Errorf("WriteWeight | Error connecting to database | %v", err)
@@ -21,11 +18,11 @@ func WriteWeight(ent Entry, force bool) error {
 	return nil
 }
 
-func WeightByTimeFrame(days int) ([]Entry, error) {
+func WeightByTimeFrame(uid string, days int) ([]Entry, error) {
 	var entries []Entry
-	query := fmt.Sprintf("SELECT * FROM %s", weightLogTable)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE uid = '%s'", weightLogTable, uid)
 	if days > 0 {
-		query += fmt.Sprintf(" ORDER BY date DESC LIMIT %d", days)
+		query += fmt.Sprintf(" ORDER BY timestamp DESC LIMIT %d", days)
 	}
 	db, err := connect()
 	if err != nil {
@@ -40,7 +37,7 @@ func WeightByTimeFrame(days int) ([]Entry, error) {
 	//Loop through the rows, using Scan to assign column data to struct fields
 	for rows.Next() {
 		var ent Entry
-		if err := rows.Scan(&ent.Date, &ent.Weight); err != nil {
+		if err := rows.Scan(&ent.Date, &ent.UID, &ent.Weight); err != nil {
 			return nil, fmt.Errorf("weightByTimeFrame %d: %v", days, err)
 		}
 		entries = append(entries, ent)

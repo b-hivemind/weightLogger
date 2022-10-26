@@ -8,12 +8,13 @@ const (
 )
 
 type Entry struct {
-	Date   string  `json:"date"`
+	Date   int64 `json:"date"`
+	UID    string
 	Weight float32 `json:"weight"`
 }
 
 type User struct {
-	UUID     uuid.UUID `json:"id"`
+	UUID     uuid.UUID `json:"uid"`
 	Username string    `json:"username"`
 	Password string    `json:"password"`
 }

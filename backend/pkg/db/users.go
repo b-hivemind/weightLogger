@@ -48,7 +48,7 @@ func RegisterUser(user User) (User, error) {
 		Username: user.Username,
 		Password: HashPassword(user.Password),
 	}
-	query := fmt.Sprintf("INSERT INTO %s (id, username, password) VALUES ('%s', '%s', '%s')", usersTable, newUser.UUID, newUser.Username, newUser.Password)
+	query := fmt.Sprintf("INSERT INTO %s (uid, username, password) VALUES ('%s', '%s', '%s')", usersTable, newUser.UUID, newUser.Username, newUser.Password)
 	db, err := connect()
 	if err != nil {
 		return newUser, fmt.Errorf("RegisterUser | Error connecting to database | %v", err)
