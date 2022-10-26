@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"time"
 
 	"bhavdeep.me/weight_logger/pkg/db"
@@ -14,13 +13,12 @@ func handleGetEntries(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Printf("Request was made by %s\n", claims.UUID)
 	validator := entriesQuery{}
 	if err := c.ShouldBindUri(&validator); err != nil {
 		c.JSON(400, gin.H{"msg": err.Error()})
 		return
 	}
-	entries, err := db.WeightByTimeFrame(validator.Days)
+	entries, err := db.WeightByTimeFrame(claims.UUID, validator.Days)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -30,6 +28,11 @@ func handleGetEntries(c *gin.Context) {
 }
 
 func handleNewEntry(c *gin.Context) {
+	claims, err := getClaimsFromToken(c)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
 	validator := newEntryQuery{}
 	if err := c.ShouldBindJSON(&validator); err != nil {
 		c.JSON(400, gin.H{"msg": err.Error()})
@@ -40,21 +43,11 @@ func handleNewEntry(c *gin.Context) {
 		return
 	}
 	data := db.Entry{
-		Date:   time.Now().Format("2006-01-02"),
+		Date:   time.Now().Unix(),
+		UID:    claims.UUID,
 		Weight: validator.Weight,
 	}
-	if !validator.Force {
-		lastEntry, err := db.WeightByTimeFrame(1)
-		if err != nil {
-			c.JSON(500, gin.H{"error": err.Error()})
-			return
-		}
-		if len(lastEntry) > 0 && lastEntry[0].Date == data.Date {
-			c.JSON(300, gin.H{"msg": fmt.Sprintf("Weight already exists for %v, use force: true to override", data.Date)})
-			return
-		}
-	}
-	err := db.WriteWeight(data, validator.Force)
+	err = db.WriteWeight(data)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
