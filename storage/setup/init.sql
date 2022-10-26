@@ -4,22 +4,24 @@ USE `weight_data`;
 
 
 CREATE TABLE IF NOT EXISTS `main` (
-  `date` date NOT NULL,
+  `timestamp` VARCHAR(256) NOT NULL,
+  `uid` VARCHAR(128) NOT NULL,
   `weight` decimal(5,1) NOT NULL,
-  PRIMARY KEY (`date`)
+  PRIMARY KEY (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` VARCHAR(128) NOT NULL,
+  `uid` VARCHAR(128) NOT NULL,
   `username` VARCHAR(256) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `test` (
-  `date` date NOT NULL,
+  `timestamp` VARCHAR(256) NOT NULL,
+  `uid` VARCHAR(256) NOT NULL,
   `weight` decimal(5,1) NOT NULL,
-  PRIMARY KEY (`date`)
+  PRIMARY KEY (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
