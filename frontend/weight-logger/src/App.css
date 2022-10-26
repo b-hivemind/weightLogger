@@ -147,6 +147,28 @@ html {
   background-color: #24273a;
 }
 
+.statsContainer {
+  display: flex;
+  
+}
+
+.statsContainer h2 {
+  margin-top: 30px;
+  flex: 1;
+  border: 2px
+}
+
+.statsContainer ul {
+  list-style-type: none;
+  font-family: Helvetica, sans-serif
+}
+
+.statsText {
+  color: #eceff4;
+}
+
+
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .deltas {

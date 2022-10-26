@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import { Chart as ChartJS } from 'chart.js/auto'
 import { Chart, Line } from 'react-chartjs-2'
 
@@ -37,7 +38,7 @@ const WeightGraph = ({ delta, weightGraphData }) => {
   }
 
   const data = {
-    labels: (weightGraphData.map((item) => item.date)).reverse(),
+    labels: (weightGraphData.map((item) => moment.unix(item.date).format('MMM D H:mm'))).reverse(),
     datasets: [{
       label: 'weight',
       data: (weightGraphData.map((item) => item.weight)).reverse(),

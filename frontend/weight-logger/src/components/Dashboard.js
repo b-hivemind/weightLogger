@@ -24,11 +24,13 @@ const Dashboard = ({ user, setUser }) => {
         })
         .catch(function(error) {
           console.log(error)
+          window.localStorage.removeItem("token")
+          window.localStorage.removeItem("username")
         })
       }
       setWeightData([...tempData])
     }
-  
+
     useEffect(() => {
       fetchWeightData()
     }, [])

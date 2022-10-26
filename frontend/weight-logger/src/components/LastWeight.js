@@ -14,17 +14,18 @@ const LastWeight = ({ weightArr }) => {
     <div className='lastWeightComponent'>
       <div className='lastWeight'>
         {weightArr != null && <h1 className='mainText deltaText'>{weightArr[0].weight}</h1>}
-        {weightArr != null && <p className='deltaText'>{weightArr[0].date}</p>}
+        {weightArr != null && <p className='deltaText'>{moment.unix(weightArr[0].date).format('MMM D \'YY HH:MM')}</p>}
       </div>
-      <div className='lastWeightDelta'>
-        <h1 className={`${delta() > 0 ? 'gain' : 'loss'}`}>
-            {Math.abs(delta())}lb&nbsp;
-            {delta() < 0 && <FaCaretDown/>}
-            {delta() > 0 && <FaCaretUp/>}
-        </h1>
-        <p className='deltaText'>since {weightArr != null && moment(weightArr[weightArr.length - 1].date).fromNow()}</p>
-      </div>
-
+      {weightArr.length > 1 &&
+        <div className='lastWeightDelta'>
+          <h1 className={`${delta() > 0 ? 'gain' : 'loss'}`}>
+              {Math.abs(delta())}lb&nbsp;
+              {delta() < 0 && <FaCaretDown/>}
+              {delta() > 0 && <FaCaretUp/>}
+          </h1>
+          <p className='deltaText'>since {weightArr != null && moment.unix(weightArr[weightArr.length - 1].date).fromNow()}</p>
+        </div>
+      }
     </div>
    )
 }

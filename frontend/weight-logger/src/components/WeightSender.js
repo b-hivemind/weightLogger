@@ -29,6 +29,10 @@ export const WeightSender = ({ token, stateHandler }) => {
                 document.getElementById('send').style = "display: none"
                 document.getElementById('force').style = "display: inline-block"
             }
+            else {
+                window.localStorage.removeItem("token")
+                window.localStorage.removeItem("username")
+            }
         })
 }
 const forceCreateEntry = (event) => {
