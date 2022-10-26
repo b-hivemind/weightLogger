@@ -57,7 +57,8 @@ func jwtMiddleWare() gin.HandlerFunc {
 }
 
 func getJWTKey(user db.User) (string, error) {
-	expirationTime := time.Now().Add(time.Minute * 10)
+	// 30 day expiration time
+	expirationTime := time.Now().Add(time.Hour * 24 * 30)
 	claims := &Claims{
 		UUID: user.UUID.String(),
 		StandardClaims: jwt.StandardClaims{
