@@ -167,7 +167,15 @@ html {
   color: #eceff4;
 }
 
+.methodChooser {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
+.methodChooser button {
+  background-color: #434c5e;
+}
 
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */

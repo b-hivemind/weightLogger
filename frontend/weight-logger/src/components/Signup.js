@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 
-export const Login = ({ stateHandler }) => {
+export const Signup = ({ stateHandler }) => {
+    const [method, setMethod] = useState("Login")
+
     axios.defaults.withCredentials = true
     let token = ""
 
-    const handleLogin = (event) => {
+    const handleSignup = (event) => {
         let uname = document.getElementsByName("uname")[0].value;
         let psw = document.getElementsByName("psw")[0].value;
         if(uname === "" || psw === "") {
@@ -13,7 +15,7 @@ export const Login = ({ stateHandler }) => {
             return
         }
         axios
-            .post('http://10.0.0.184:8081/login', {
+            .post('http://10.0.0.184:8081/' + method.toLowerCase(), {
                 username: uname,
                 password: psw
             })
@@ -34,14 +36,18 @@ export const Login = ({ stateHandler }) => {
     <div>
         <div className="loginForm">
             <div className="loginFormContainer">
-                <h3 className="title">Login</h3>
+                <div className="methodChooser">
+                    <button onClick={() => setMethod("Login")}>Login</button>
+                    <button onClick={() => setMethod("Register")}>Register</button>
+                </div>
+                <h3 className="title">{method}</h3>
                 <label for="uname"><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="uname" required/>
 
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required/>
 
-                <button id="submitButton" onClick={handleLogin}><b>Login</b></button>
+                <button id="submitButton" onClick={handleSignup}><b>{method}</b></button>
             </div>
         </div>
     </div>

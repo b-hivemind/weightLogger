@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Login } from './components/Login';
+import { Signup } from './components/Signup';
 
 import './App.css';
 import Dashboard from './components/Dashboard';
@@ -37,7 +37,9 @@ function App() {
             <p><i>The simple weight logger</i></p>
             <hr/>
       </div>
-      {user == null && <Login stateHandler={saveUserCreds}/> }
+      {user == null &&
+        <Signup stateHandler={saveUserCreds}/> 
+      }
       {user != null && <Dashboard user={user} setUser={setUser}/>}
     </div>
 
