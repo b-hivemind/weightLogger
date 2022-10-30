@@ -7,7 +7,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func convertToKG(entries []db.Entry) []db.Entry {
+	var convertedEntries []db.Entry
+	for _, entry := range entries {
+		var convertedEntry db.Entry
+		convertedEntry.Weight = 0.45 * entry.Weight
+		convertedEntry.Date = entry.Date
+		convertedEntries = append(convertedEntries, convertedEntry)
+	}
+	return convertedEntries
+}
+
 func handleGetEntries(c *gin.Context) {
+	units := c.DefaultQuery("units", "LB")
 	claims, err := getClaimsFromToken(c)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -23,6 +35,9 @@ func handleGetEntries(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	} else {
+		if units == "KG" {
+			entries = convertToKG(entries)
+		}
 		c.JSON(200, entries)
 	}
 }

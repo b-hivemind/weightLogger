@@ -7,10 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	allowed_origins = 3
-)
-
 func checkAllowedOrigins(c *gin.Context) string {
 	ALLOWED_ORIGINS := []string{
 		"http://10.0.0.184:8080",

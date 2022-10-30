@@ -6,7 +6,6 @@ type entriesQuery struct {
 
 type newEntryQuery struct {
 	Weight float32 `binding:"required" json:"weight"`
-	Force  bool    `json:"force"`
 }
 
 type authQuery struct {
