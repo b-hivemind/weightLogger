@@ -93,9 +93,15 @@ html {
   font-size: 1rem;
 }
 
-#force {
-  display: none;
-  font-size: 1rem;
+.unitsChooser {
+  padding-top: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+#unitButton-lb {
+  display: block;
+  position:initial;
 }
 
 .loginForm {

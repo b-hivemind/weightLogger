@@ -35,36 +35,11 @@ export const WeightSender = ({ token, stateHandler }) => {
             }
         })
 }
-const forceCreateEntry = (event) => {
-    let weight = document.getElementById("weightEntryBox").value;
-    if(isNaN(weight) || isNaN(parseFloat(weight))) {
-        alert("Invalid weight: " + weight)
-        document.getElementById("weightEntryBox").value = null;
-    }
-    weight = parseFloat(weight)
-    axios
-        .post('http://10.0.0.184:8081/entries/new', {
-            weight: weight,
-            force: true
-        })
-        .then(function(response) {
-
-            stateHandler()
-            document.getElementById("weightEntryBox").value = null;
-            document.getElementById('send').style = "display: inline-block"
-            document.getElementById('force').style = "display: none"
-        })
-        .catch(function(error) {
-            console.log(error)
-            document.getElementById("weightEntryBox").value = null;
-        })
-}
 
   return (
     <div id="sender">
         <input id="weightEntryBox" type="text"/>&nbsp;
         <button id="send" onClick={createEntry}>🚀</button>
-        <button id="force" onClick={forceCreateEntry}>⚠️</button>
     </div>
   )
 }

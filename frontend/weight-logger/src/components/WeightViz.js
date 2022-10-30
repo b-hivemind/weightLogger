@@ -3,7 +3,7 @@ import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 import React from 'react'
 
 
-const WeightViz = ({weightArr}) => {    
+const WeightViz = ({weightArr, units}) => {    
 
   const delta = () => {
     return (weightArr[0].weight - weightArr[weightArr.length - 1].weight).toFixed(2)
@@ -15,7 +15,7 @@ const WeightViz = ({weightArr}) => {
     return (
       <div className="statsContainer">
         <h2 className={`${delta() > 0 ? 'gain' : 'loss'}`}> 
-          {Math.abs(delta())}lb&nbsp;
+          {Math.abs(delta())}{units.toLowerCase()}&nbsp;
           {delta() < 0 && <FaCaretDown/>}
           {delta() > 0 && <FaCaretUp/>}
         </h2>`
