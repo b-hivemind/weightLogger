@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archimedes
+spec:
+  selector:
+    matchLabels:
+      app: archimedes
+  template:
+    metadata:
+      labels:
+        app: archimedes
+    spec:
+      containers:
+      - name: archimedes
+        image: buffdeep/archimedes-api:latest
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 10080
+        env:
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: archimedes-config
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: archimedes-config
+              key: DB_PASSWORD
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: archimedes-config
+              key: DB_PORT
+        
+

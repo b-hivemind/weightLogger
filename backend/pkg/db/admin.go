@@ -13,7 +13,7 @@ func connect() (*sql.DB, error) {
 		User:   os.Getenv("DB_USER"),
 		Passwd: os.Getenv("DB_PASSWORD"),
 		Net:    "tcp",
-		Addr:   fmt.Sprintf("database:%s", os.Getenv("DB_PORT")),
+		Addr:   fmt.Sprintf("archimedes-data-svc:%s", os.Getenv("DB_PORT")),
 		DBName: "weight_data",
 	}
 	db, err := sql.Open("mysql", cfg.FormatDSN())

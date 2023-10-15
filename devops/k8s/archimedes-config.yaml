@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: archimedes-config
+data:
+  DB_USER: "archimedes"
+  DB_PASSWORD: "@r(h1m3d3s"
+  DB_PORT: "3306"
+  

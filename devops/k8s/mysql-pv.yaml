@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: archimedes-data-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath: 
+    path: "/home/buffdeep/.kube/archimedes-storage/archimedes-data-volume"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: archimedes-mysql-pv-claim
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+
+  

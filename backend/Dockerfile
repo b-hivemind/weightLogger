@@ -15,5 +15,5 @@ COPY *.go ./
 ADD pkg/ ./pkg
 
 RUN go build -o /weight_logger_backend
-EXPOSE 10000
+EXPOSE 10080
 ENTRYPOINT [ "/weight_logger_backend" ]
